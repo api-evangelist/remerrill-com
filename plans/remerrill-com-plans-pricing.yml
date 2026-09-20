@@ -1,0 +1,18 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.remerrill.com/llms.txt
+docs:
+- https://www.remerrill.com/contact
+plan_count: 0
+currency: null
+model: free, unauthenticated API; commercial quotation by a human engineer off-API
+summary: >-
+  R.E. Merrill publishes no plans, tiers or API pricing. The line finder and its A2A twin are free and need no
+  account. The provider states its commercial model directly in llms.txt: "We do not publish pricing; quotes
+  come from an engineer" and, on the agent card, "No pricing is returned by the agent; quotes come from an
+  engineer." /pricing returns 404. plan_count is 0 because there is nothing to enumerate, not because the
+  page was unreadable.
+plans: []
+evidence:
+- {url: 'https://www.remerrill.com/llms.txt', status: 200, quote: 'We do not publish pricing; quotes come from an engineer.'}
+- {url: 'https://www.remerrill.com/pricing', status: 404}

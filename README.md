@@ -64,5 +64,10 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-R.E. Merrill & Associates, Inc. is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://remerrill.com/
+R.E. Merrill & Associates, Inc. is a Texas industrial pump distributor and manufacturers' representative (founded in Houston in 1987; 13 represented lines including Vanton, Grundfos and Continental UltraPump) that publishes one machine-callable capability: a deterministic pump line finder that takes a pumping duty and returns which represented lines fit, citing the manufacturer catalog page, then hands off to a human engineer for quotation. It is exposed as an unauthenticated REST endpoint (POST /api/line-finder) and as an Agent2Agent v1.0 agent (JSON-RPC at /api/a2a) with a JWS-signed agent card at /.well-known/agent-card.json and an llms.txt as its documentation.
+
+- Website: https://www.remerrill.com/
+- Documentation (llms.txt): https://www.remerrill.com/llms.txt
+- Agent card: https://www.remerrill.com/.well-known/agent-card.json
+- Quotes and contact: https://www.remerrill.com/contact
+- Profiled 2026-09-19 from the provider's public surface; first surfaced through a2aregistry.org. The OpenAPI under openapi/ is API Evangelist-generated from the provider's published endpoint description and live responses — the provider publishes no OpenAPI of its own.

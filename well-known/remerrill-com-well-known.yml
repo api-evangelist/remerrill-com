@@ -1,0 +1,110 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the named /.well-known/* path list on www.remerrill.com and remerrill.com, 2026-09-19,
+  plus the two documents the provider's own llms.txt and agent card name under /.well-known/ (agent-card.json
+  and jwks.json). Every row below is a request that was actually issued; every status is the one returned.
+summary:
+  hosts_probed: 2
+  paths_probed: 42
+  documents_served: 2
+  hit_count: 2
+  path_echo_control: passed
+  note: >-
+    R.E. Merrill serves exactly two well-known documents, both part of its A2A surface: the signed agent card
+    at /.well-known/agent-card.json (saved and graded under a2a/) and the JWKS its signature header points at
+    (/.well-known/jwks.json, one ES256 P-256 key, saved here verbatim). Every other named path returns the
+    Next.js site's real HTTP 404 page (status 404, text/html, "404: This page could not be found") — a genuine
+    404 status, not a soft-200 shell — and a negative-control path that cannot exist also 404s, so the two
+    200s are served documents. No security.txt, no OAuth/OIDC discovery, no RFC 9727 API catalog, no
+    APIs.json, no AAuth resource document, no ai-plugin, no UCP/ACP manifest. The apex remerrill.com
+    308-redirects every path to www and serves nothing of its own. There is no MCP server, so there is no
+    separate MCP host to probe for RFC 9728 protected-resource metadata; the A2A resource host is www itself
+    (row below, 404). The WellKnown pointer is emitted on the strength of the two served documents; no
+    SecurityTxt pointer is emitted.
+hosts:
+- host: www.remerrill.com
+  role: Website, REST API host (POST /api/line-finder) and A2A JSON-RPC host (POST /api/a2a) — one Vercel origin
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 6129
+    file: ../a2a/remerrill-com-agent-card.json
+    standard: A2A Agent Card (v1.0 supportedInterfaces shape; JWS-signed)
+    note: Saved verbatim under a2a/ and graded in a2a/remerrill-com-a2a.yml (flavored — no top-level protocolVersion).
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 268
+    file: remerrill-com-jwks.json
+    standard: RFC 7517 JSON Web Key Set
+    note: Named by the agent card's JWS protected header (jku). One key — kty EC, crv P-256, alg ES256, use sig, kid remerrill-a2a-2026-08.
+  - path: /.well-known/agent.json
+    status: 404
+    note: Legacy pre-0.3 agent-card path. Not served.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    note: This host is also the A2A resource server; no RFC 9728 metadata is served, consistent with an unauthenticated agent.
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 12147
+    file: ../llms/remerrill-com-llms.txt
+    note: Not a well-known path, recorded here because it is the document the agent card names as documentationUrl. Saved verbatim under llms/.
+  - path: /robots.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 71
+    note: 'User-agent: * / Allow: / / Sitemap: https://www.remerrill.com/sitemap.xml. Nothing is disallowed; agents and crawlers are welcome.'
+  - path: /.well-known/remerrill-com-negative-control-7f3a9c1e.json
+    status: 404
+    control: negative
+    note: A path that cannot exist. Its 404 proves the host does not echo or catch-all /.well-known/* requests.
+- host: remerrill.com
+  role: Apex — 308 to www.remerrill.com for every path
+  documents:
+  - {path: /.well-known/agent-card.json, status: 308, redirect: 'https://www.remerrill.com/.well-known/agent-card.json'}
+  - {path: /.well-known/agent.json, status: 308}
+  - {path: /.well-known/security.txt, status: 308}
+  - {path: /security.txt, status: 308}
+  - {path: /.well-known/openid-configuration, status: 308}
+  - {path: /.well-known/oauth-authorization-server, status: 308}
+  - {path: /.well-known/oauth-protected-resource, status: 308}
+  - {path: /.well-known/api-catalog, status: 308}
+  - {path: /.well-known/api-catalog.json, status: 308}
+  - {path: /.well-known/ai-plugin.json, status: 308}
+  - {path: /.well-known/ucp.json, status: 308}
+  - {path: /.well-known/acp.json, status: 308}
+  - {path: /.well-known/aauth-resource.json, status: 308}
+  - {path: /.well-known/apis.json, status: 308}
+  - {path: /apis.json, status: 308}
+  - {path: /apis.yml, status: 308}
+  - {path: /robots.txt, status: 308}
+  - {path: /sitemap.xml, status: 308}

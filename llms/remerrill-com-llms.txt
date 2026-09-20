@@ -1,0 +1,221 @@
+# R.E. Merrill & Associates, Inc.
+
+> Industrial pump distributor and manufacturers' representative for
+> corrosion-resistant and thermoplastic pump solutions, serving Texas
+> industry since 1987. Founded in Houston by Ron Merrill Sr.; led since 2020
+> by Ron Merrill Jr. We apply, quote, and support 13 lines covering corrosive
+> chemical pumping, chemical feed and dosing, sump and slurry service, boiler
+> feed, sealless mag-drive pumping, mechanical seals, and engineered
+> plastics. Exclusive Texas representative for Vanton Pump and Equipment for
+> more than 30 years. Customers include Valero, Kaneka, Oxy, Samsung, the
+> City of Houston, and Texas Instruments.
+
+Territory: Texas, USA
+Phone: 713-349-0909
+Email: info@remerrill.com
+Address: 801 Carney Ln #3B, Wimberley, TX 78676
+Request a quote: https://www.remerrill.com/contact
+
+How we work: send the duty (fluid, concentration, temperature, flow, head,
+service type) and we return a confirmed selection. Material and compatibility
+determinations are confirmed against curated engineering data and factory
+guidance before quoting. We do not publish pricing; quotes come from an
+engineer.
+
+## Pump lines
+
+- Vanton Pump & Equipment (https://www.remerrill.com/lines/vanton):
+  chemical resistant engineered thermoplastic pumps. Vertical sump
+  (cantilevered, vortex), horizontal centrifugal (ANSI, mag-drive,
+  self-priming, vortex), rotary peristaltic. For corrosive, hazardous,
+  abrasive, and ultrapure liquids.
+- Grundfos (https://www.remerrill.com/lines/grundfos): vertical multistage
+  centrifugal pumps, digital and mechanical dosing pumps.
+- Continental Progressing Cavity UltraPump
+  (https://www.remerrill.com/lines/continental-ultrapump): progressive cavity
+  pumps for sludge, polymer, and viscous fluids.
+- DP Pumps USA (https://www.remerrill.com/lines/dp-pumps): 304 and 316
+  stainless vertical multistage pumps.
+- Pinnacle-Flo (https://www.remerrill.com/lines/pinnacle-flo): internal gear,
+  ANSI process, air-operated double diaphragm, solids-handling self-primer
+  pumps.
+- Vertiflo (https://www.remerrill.com/lines/vertiflo): vertical sump,
+  cantilever, and process pumps; horizontal end suction and trash-handling
+  self-priming pumps.
+- Simtech Process Systems (https://www.remerrill.com/lines/simtech):
+  thermoplastic valves, high purity and DI water piping, double containment
+  piping, controls, corrosion-resistant air handling.
+- TF Seals (https://www.remerrill.com/lines/tf-seals): mechanical seals, seal
+  support systems, packing and gaskets.
+- Garbarino Pumps (https://www.remerrill.com/lines/garbarino): cast iron and
+  alloy pumps, multistage horizontal and vertical, recessed impeller vortex.
+- GreenPumps (https://www.remerrill.com/lines/greenpumps): mag-drive sealless
+  pumps in alloys and engineered plastics.
+- Pemo Pumps (https://www.remerrill.com/lines/pemo): rubber lined and
+  hard-alloy slurry pumps, horizontal, vertical, and submersible.
+- Victor Pumps (https://www.remerrill.com/lines/victor): internal gear and
+  self-priming centrifugal pumps.
+- Walrus Pump (https://www.remerrill.com/lines/walrus): multistage, booster,
+  immersible, and constant pressure pumps.
+
+## Applications
+
+Chemical-specific pump selection guidance, one page per chemical, plus
+industry application pages. Each explains why the service is hard, which
+approaches get specified, and how RE Merrill confirms materials before
+quoting.
+
+- Pumps for sodium hypochlorite (NaOCl):
+  https://www.remerrill.com/applications/sodium-hypochlorite-pumps
+- Pumps for hydrochloric acid (HCl):
+  https://www.remerrill.com/applications/hydrochloric-acid-pumps
+- Pumps for sulfuric acid (H2SO4):
+  https://www.remerrill.com/applications/sulfuric-acid-pumps
+- Pumps for sodium hydroxide (NaOH, caustic soda):
+  https://www.remerrill.com/applications/sodium-hydroxide-pumps
+- Pumps for ferric chloride (FeCl3):
+  https://www.remerrill.com/applications/ferric-chloride-pumps
+- Pumps for phosphoric acid (H3PO4):
+  https://www.remerrill.com/applications/phosphoric-acid-pumps
+- Pumps for wastewater pH neutralization:
+  https://www.remerrill.com/applications/wastewater-ph-neutralization-pumps
+- Pumps for semiconductor ultrapure water (UPW):
+  https://www.remerrill.com/applications/semiconductor-ultrapure-water-pumps
+- Chemical transfer pumps for processing plants:
+  https://www.remerrill.com/applications/chemical-processing-transfer-pumps
+- Pumps for metal finishing and plating:
+  https://www.remerrill.com/applications/metal-finishing-plating-pumps
+
+## Technical documents
+
+Each line page carries a technical document library: 47 manufacturer PDFs
+(catalogs, cut sheets, technical data sheets, IOM manuals, brochures)
+mirrored under https://www.remerrill.com/docs/<line-slug>/. Crawlable HTML
+specification pages of this data are being added line by line, every model
+row cited to its printed source page:
+
+- Grundfos dosing pump specifications (SMART Digital DDA, DDC, DDE, plus
+  DME, DDI, DMX, DMH):
+  https://www.remerrill.com/lines/grundfos/specifications
+- Continental progressing cavity pump specifications (CL, CM, CG, CK 2000
+  Series, CP wobble stator):
+  https://www.remerrill.com/lines/continental-ultrapump/specifications
+
+## Pump Notes
+
+https://www.remerrill.com/pump-notes - engineering articles on pump
+selection, materials, and application know-how. Every article carries
+Article structured data and cites its related pump line.
+
+Selection guides:
+
+- The Ultimate Guide to Choosing the Right Chemical Pump:
+  https://www.remerrill.com/pump-notes/the-ultimate-guide-to-choosing-the-right-chemical-pump
+- Thermoplastic vs. Metal Pumps: Which Should You Specify?:
+  https://www.remerrill.com/pump-notes/thermoplastic-vs-metal-pumps
+- How to Choose a Corrosion-Resistant Centrifugal Pump:
+  https://www.remerrill.com/pump-notes/navigating-the-maze-how-to-choose-the-right-corrosion-resistant-centrifugal-pump
+- Centrifugal vs. Internal Gear Pumps: How to Choose:
+  https://www.remerrill.com/pump-notes/choosing-the-right-pump-centrifugal-vs-internal-gear-a-clear-path-to-informed-decisions
+- Thermoplastic Pump Materials Guide (PVC, CPVC, PP, PVDF, ECTFE, PTFE):
+  https://www.remerrill.com/pump-notes/the-material-revolution-how-vanton-pumps-are-setting-new-standards-in-corrosion-resistance
+
+Applications and operations:
+
+- Corrosion Resistant Pumps in Texas:
+  https://www.remerrill.com/pump-notes/corrosion-resistant-pumps-in-texas
+- Thermoplastic Pumps for Wastewater Treatment:
+  https://www.remerrill.com/pump-notes/embracing-the-future-the-rise-of-thermoplastic-pumps-in-wastewater-and-industrial-applications
+- Plastics vs. Stainless Steel in Pharmaceutical Plants:
+  https://www.remerrill.com/pump-notes/plastics-vs-stainless-steel-revolutionizing-pharmaceutical-plants
+- Maximizing Pump Efficiency: A Practical Optimization Guide:
+  https://www.remerrill.com/pump-notes/maximizing-efficiency-optimizing-your-pump-performance
+- Precision Dosing in Beverage Production with Grundfos Dosing Pumps:
+  https://www.remerrill.com/pump-notes/beverage-manufacturer-bubbles-up-efficiency-and-quality-with-grundfos-dosing-pumps
+- Code-Compliant Spent Sulfuric Acid Handling with Double-Containment
+  Piping (Simtech case):
+  https://www.remerrill.com/pump-notes/semiconductor-giant-achieves-code-compliant-spent-sulfuric-acid-handling-with-cost-effective-double-containment-piping-system
+
+Pump principles by line:
+
+- The 7 Key Advantages of Progressive Cavity Pumps (Continental):
+  https://www.remerrill.com/pump-notes/the-7-key-advantages-of-progressive-cavity-pumps-conquering-tough-pumping-challenges
+- Vertical Multistage Pumps: How They Work and Where They Fit (DP Pumps):
+  https://www.remerrill.com/pump-notes/vertical-multistage-pumps-how-they-work-and-why-theyre-so-versatile
+- High-Pressure Slurry Pumping: Pemo Double and Triple Stage Pumps:
+  https://www.remerrill.com/pump-notes/conquering-high-pressure-needs-pemos-double-and-triple-stage-slurry-pumps
+- Garbarino Pumps for Chemical Processing Plants:
+  https://www.remerrill.com/pump-notes/keeping-industry-flowing-garbarino-pumps-for-chemical-processing-plants
+
+## Case studies (https://www.remerrill.com/case-studies)
+
+Documented customer applications, each with a TLDR, full write-up, and FAQ:
+
+- Kaneka Corporation, Vanton CGA pumps replacing high-alloy pumps
+  (chemical processing):
+  https://www.remerrill.com/case-studies/kaneka-cga
+- A Decade of Excellence: Vanton Sump-Gard SGC-PY800 C, twelve years of
+  continuous sulfuric acid and nickel sulfate service:
+  https://www.remerrill.com/case-studies/decade-of-excellence
+- Diesel-driven Vanton CG-PY1200 on an offshore drilling rig (oil and
+  gas): https://www.remerrill.com/case-studies/cg-py1200-offshore
+- City of Houston NEWPP expansion to 320 MGD, Sump-Gard containment and
+  Chem-Gard transfer pumps (water purification):
+  https://www.remerrill.com/case-studies/city-of-houston-newpp
+- EMD Electronics wastewater lift station, Sump-Gard SG-PY1800HA in
+  polypropylene (semiconductor):
+  https://www.remerrill.com/case-studies/emd-electronics
+- San Antonio Zoo Aquarium, Vanton CG-PY2400 in salt water service
+  (marine): https://www.remerrill.com/case-studies/san-antonio-zoo-aquarium
+- High-purity chemical processing in the semiconductor industry:
+  https://www.remerrill.com/case-studies/high-purity-semiconductor
+- Vanton thermoplastic pumps overcoming FRP pump failures:
+  https://www.remerrill.com/case-studies/vanton-overcomes-frp
+- Semiconductor thermoset pump replacement for purity:
+  https://www.remerrill.com/case-studies/elevating-semiconductor
+- Austin semiconductor plant, 35 follow-on Vanton SGH and SG pumps:
+  https://www.remerrill.com/case-studies/elevating-industrial-standards
+
+## About
+
+https://www.remerrill.com/about - founded in Houston by Ron Merrill Sr.,
+led since 2020 by Ron Merrill Jr. Values: honesty, roll-up-your-sleeves
+problem-solving, attention to detail.
+
+## Market segments
+
+Semiconductor, Chemical Manufacturing, Water / Wastewater, Boiler Service,
+Industry, Petrochemical.
+
+## API
+
+- Line finder, deterministic pump line selection: POST
+  https://www.remerrill.com/api/line-finder with a JSON duty
+  ({ fluid, concentrationPct?, temperatureF?, flowGpm? or flowGph?,
+  pressurePsi? or headFt?, service? }). Returns which represented lines
+  fit and why, with source citations, plus an RFQ link. Verdicts come
+  only from curated tables of manufacturer-published data (currently
+  Grundfos dosing and Continental progressing cavity; the other lines
+  are consult-REM by design). Fluid, concentration, and temperature are
+  never resolved by the endpoint; chemical compatibility is confirmed by
+  an REM engineer. Anything unresolved returns consult-REM, never a
+  guess.
+  Example: curl -X POST https://www.remerrill.com/api/line-finder -H 'Content-Type: application/json' -d '{"fluid":"sodium hypochlorite","concentrationPct":12.5,"flowGph":2,"pressurePsi":40,"service":"feed"}'
+- A2A endpoint, the same line finder over the Agent2Agent protocol v1.0:
+  JSON-RPC 2.0 at POST https://www.remerrill.com/api/a2a (method
+  SendMessage; send the duty JSON as a message part). Synchronous,
+  stateless: a resolvable duty returns a completed task whose artifact
+  carries the exact line-finder response plus a text summary. No
+  streaming, no push notifications.
+  Example: curl -X POST https://www.remerrill.com/api/a2a -H 'Content-Type: application/json' -H 'A2A-Version: 1.0' -d '{"jsonrpc":"2.0","id":1,"method":"SendMessage","params":{"message":{"messageId":"m1","role":"ROLE_USER","parts":[{"data":{"fluid":"sodium hypochlorite","concentrationPct":12.5,"flowGph":2,"pressurePsi":40,"service":"feed"}}]}}}'
+
+## For AI agents
+
+Use the line-finder or A2A endpoint above for pump selection queries.
+The A2A v1.0 agent card lives at
+https://www.remerrill.com/.well-known/agent-card.json, signed per A2A
+v1.0 (JWS ES256; public keys at
+https://www.remerrill.com/.well-known/jwks.json). Skills: the pump line
+finder, per-line coverage skills for Grundfos dosing and Continental
+progressing cavity, and an RFQ handoff. For anything the endpoint marks
+unresolved, route to https://www.remerrill.com/contact.

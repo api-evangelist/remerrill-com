@@ -1,0 +1,30 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://www.remerrill.com/llms.txt
+signals: {}
+summary: >-
+  Nothing found, and the absence is the measurement. R.E. Merrill is a 13-line industrial pump distributor
+  and manufacturers' representative in Texas whose site carries no privacy policy, terms, accessibility
+  statement, subprocessor list, DPA, data-subject-request channel, transparency report, SBOM, data-residency
+  statement or age-assurance page. The API collects nothing beyond the duty a caller chooses to send, needs
+  no account, and the human path is an email/phone/web-form to an engineer. The one adjacent signal — the
+  agent card's plain statement that the agent is deterministic, never generates numbers, and never resolves
+  chemical compatibility ("a safety determination confirmed by an REM engineer") — is a product-safety
+  disclosure about an AI-facing surface, not an AI-transparency regime statement, and is not recorded as one.
+probed:
+- {url: 'https://www.remerrill.com/privacy', status: 404}
+- {url: 'https://www.remerrill.com/privacy-policy', status: 404}
+- {url: 'https://www.remerrill.com/terms', status: 404}
+- {url: 'https://www.remerrill.com/terms-of-service', status: 404}
+- {url: 'https://www.remerrill.com/legal', status: 404}
+- {url: 'https://www.remerrill.com/accessibility', status: 404}
+- {url: 'https://www.remerrill.com/accessibility/vpat', status: 404}
+- {url: 'https://www.remerrill.com/legal/subprocessors', status: 404}
+- {url: 'https://www.remerrill.com/legal/dpa', status: 404}
+- {url: 'https://www.remerrill.com/privacy/requests', status: 404}
+- {url: 'https://www.remerrill.com/transparency', status: 404}
+- {url: 'https://www.remerrill.com/security', status: 404}
+- {url: 'https://www.remerrill.com/security/sbom', status: 404}
+- {url: 'https://www.remerrill.com/.well-known/security.txt', status: 404}
+- {url: 'https://www.remerrill.com/', status: 200, note: 'Footer links: /, /about, /applications, /case-studies, /contact, /lines, /pump-notes, mailto:info@remerrill.com, tel:+17133490909 — no legal pages linked anywhere on the site.'}

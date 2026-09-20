@@ -1,0 +1,100 @@
+{
+  "name": "RE Merrill Pump Application Agent",
+  "description": "Industrial pump selection assistance from R.E. Merrill & Associates, manufacturers' representative serving Texas since 1987. Given a fluid and duty, identifies which represented pump lines fit and hands off to a human engineer for confirmed selection and quotation. Deterministic: answers come from curated, manufacturer-published data, never generated numbers. Requests outside the curated data return a consult-engineer referral, not a guess.",
+  "supportedInterfaces": [
+    {
+      "url": "https://www.remerrill.com/api/a2a",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "R.E. Merrill & Associates, Inc.",
+    "url": "https://www.remerrill.com"
+  },
+  "version": "1.0.0",
+  "documentationUrl": "https://www.remerrill.com/llms.txt",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "extendedAgentCard": false
+  },
+  "defaultInputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "line-finder",
+      "name": "Pump line finder",
+      "description": "Given a JSON duty (fluid, concentrationPct, temperatureF, flowGpm or flowGph, pressurePsi or headFt, service), returns which represented pump lines fit and why: matched families with model counts, a rationale naming the smallest covering model with its source document and printed page, and an RFQ handoff URL. Send the duty JSON as a message part over this A2A endpoint (SendMessage), or POST it plain to https://www.remerrill.com/api/line-finder. Verdicts come only from curated tables of manufacturer-published flow and pressure data. Curated coverage today is Grundfos dosing pumps and Continental progressing cavity pumps, described by the per-line skills below; the remaining represented lines are consult-REM by design. Fluid, concentration, and temperature are never resolved by the agent: chemical compatibility is a safety determination confirmed by an REM engineer. Unresolved duties return a deterministic consult-REM referral, never a guess.",
+      "tags": [
+        "pump-selection",
+        "corrosive-fluid-pumping",
+        "chemical-pumps",
+        "industrial-equipment",
+        "texas"
+      ],
+      "examples": [
+        "{\"fluid\":\"sodium hypochlorite\",\"concentrationPct\":12.5,\"flowGph\":2,\"pressurePsi\":40,\"service\":\"feed\"}",
+        "Which pump lines fit sodium hypochlorite transfer at ambient temperature?",
+        "Recommend a sealless pump for acid transfer."
+      ]
+    },
+    {
+      "id": "line-finder-grundfos",
+      "name": "Grundfos dosing pump coverage",
+      "description": "Grundfos coverage of the pump line finder. Curated from the 2012 factory Dosing All Product Brochure (L-DOS-SL-02 Rev. 10-12): 116 model envelopes across nine families, DDA SMART Digital, DDC SMART Digital, DDE SMART Digital, DME Digital Dosing, DDI 222, DMX 221, DMX 226, DMH 250 series, and DMH 280 series. Cataloged flows reach 278 US gph and pressures reach 2900 psi, stated for water. Duties are compared in US gph, the catalog's native unit. Every verdict cites the printed source page. The brochure vintage is 2012, so REM verifies against current factory literature before quoting. Chemical compatibility is never resolved by the agent. Crawlable specification tables: https://www.remerrill.com/lines/grundfos/specifications",
+      "tags": [
+        "dosing-pumps",
+        "metering-pumps",
+        "chemical-feed",
+        "grundfos",
+        "texas"
+      ],
+      "examples": [
+        "{\"fluid\":\"sodium hypochlorite\",\"concentrationPct\":12.5,\"flowGph\":1,\"pressurePsi\":150,\"service\":\"feed\"}",
+        "Which Grundfos dosing pump families cover 1 gph at 150 psi?"
+      ]
+    },
+    {
+      "id": "line-finder-continental-ultrapump",
+      "name": "Continental progressing cavity coverage",
+      "description": "Continental UltraPump coverage of the pump line finder. Curated from the 2021 factory Product Catalog and the CK Series 2000 catalog: 105 model envelopes across the CL Rigid Stator, CM High Pressure, CG Crown Gear Joint, CP Wobble Stator, and CK 2000 Series families. The CJ Hopper family is cataloged without performance rows, so it always routes to consult-REM. Cataloged flows reach 2400 US gpm and pressures reach 780 psi, stated for water at 70 F. Duties are compared in US gpm, the catalogs' native unit. Every verdict cites the printed source page. Viscosity, particle size, and abrasive deratings are not applied by the agent; REM applies them at quoting. Chemical compatibility is never resolved by the agent. Crawlable specification tables: https://www.remerrill.com/lines/continental-ultrapump/specifications",
+      "tags": [
+        "progressing-cavity-pumps",
+        "sludge-pumps",
+        "polymer-feed",
+        "viscous-fluids",
+        "texas"
+      ],
+      "examples": [
+        "{\"fluid\":\"municipal sludge\",\"flowGpm\":100,\"pressurePsi\":50,\"service\":\"transfer\"}",
+        "Which Continental progressing cavity families cover 100 gpm at 50 psi?"
+      ]
+    },
+    {
+      "id": "request-quote",
+      "name": "Request a quote",
+      "description": "Submits an application (fluid, duty, contact details) to RE Merrill for a confirmed selection and quotation from a human engineer. Every line-finder response carries an rfqUrl that prefills the form at https://www.remerrill.com/contact with the stated duty. No pricing is returned by the agent; quotes come from an engineer.",
+      "tags": [
+        "rfq",
+        "quotation",
+        "pump-quote"
+      ],
+      "examples": [
+        "Request a quote for a vertical sump pump for 30 percent sulfuric acid."
+      ]
+    }
+  ],
+  "signatures": [
+    {
+      "protected": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpPU0UiLCJraWQiOiJyZW1lcnJpbGwtYTJhLTIwMjYtMDgiLCJqa3UiOiJodHRwczovL3d3dy5yZW1lcnJpbGwuY29tLy53ZWxsLWtub3duL2p3a3MuanNvbiJ9",
+      "signature": "BRpguZlTi41j97GFB-_ce4Dj4RrfNvEz4xNBo4CVTzwUs3EKHMGYc26QFaHa7Bh2_4qieOGF74QyFBeOVi9PxA"
+    }
+  ]
+}

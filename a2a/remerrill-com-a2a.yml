@@ -1,0 +1,167 @@
+generated: '2026-09-19'
+method: probed
+source: https://www.remerrill.com/.well-known/agent-card.json
+card:
+  file: a2a/remerrill-com-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: www.remerrill.com
+  note: >-
+    Served from the www host, which is also the site, the REST API host and the A2A JSON-RPC host — one
+    Vercel-hosted Next.js origin. The apex remerrill.com 308-redirects every path to www. The legacy
+    /.well-known/agent.json returns the site's real 404 page (HTTP 404, "404: This page could not be found"),
+    and a negative-control path (/.well-known/remerrill-com-negative-control-7f3a9c1e.json) also 404s, so the
+    200 on agent-card.json is a served document, not a catch-all. The response carries
+    content-disposition: inline; filename="agent-card.json", an ETag and last-modified Mon, 14 Sep 2026.
+    Ownership is not in question: provider.organization is "R.E. Merrill & Associates, Inc." with provider.url
+    https://www.remerrill.com, the documentationUrl is the same host's llms.txt, the JWS header's jku points at
+    https://www.remerrill.com/.well-known/jwks.json (fetched, one ES256 P-256 key, kid remerrill-a2a-2026-08),
+    and the interface URL https://www.remerrill.com/api/a2a answered the provider's own documented example.
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://www.remerrill.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  body_bytes: 6129
+  body_parses_as: JSON object with AgentCard shape (name, description, supportedInterfaces, provider, version, documentationUrl, capabilities, defaultInputModes, defaultOutputModes, skills, signatures)
+  corroborating_probes:
+  - url: https://www.remerrill.com/.well-known/agent.json
+    http_status: 404
+  - url: https://remerrill.com/.well-known/agent-card.json
+    http_status: 308
+    note: Redirects to https://www.remerrill.com/.well-known/agent-card.json.
+  - url: https://www.remerrill.com/.well-known/jwks.json
+    http_status: 200
+    note: The key set the card's JWS signature header (jku) names. Saved verbatim to well-known/remerrill-com-jwks.json. Signature validity was not verified; presence and key shape were.
+  - url: https://www.remerrill.com/api/a2a
+    method: GET
+    http_status: 405
+    response: '{"error":"Method not allowed","reason":"This is the A2A v1.0 JSON-RPC endpoint; POST a JSON-RPC 2.0 request. Agent discovery starts at the agent card.","agentCard":"https://www.remerrill.com/.well-known/agent-card.json"}'
+  - url: https://www.remerrill.com/api/a2a
+    method: POST
+    body: 'the provider''s documented SendMessage example (duty: sodium hypochlorite 12.5%, 2 gph, 40 psi, feed)'
+    http_status: 200
+    response: 'JSON-RPC result.task with status.state TASK_STATE_COMPLETED and one artifact named line-finder-result carrying the line-finder verdict (Grundfos 9 families / Continental 5 families) plus a text summary.'
+    note: A real A2A v1.0 responder. The duty is a query over curated catalog tables; nothing was ordered, quoted or stored.
+  - url: https://www.remerrill.com/api/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":3,"method":"GetTask","params":{"id":"apievangelist-nonexistent-probe"}}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":3,"error":{"code":-32001,"message":"Task not found","data":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"TASK_NOT_FOUND","domain":"remerrill.com","metadata":{"taskId":"...","note":"Tasks on this agent complete synchronously inside SendMessage and are not retained afterward."}}]}}'
+    note: TaskNotFoundError (-32001) with a google.rpc.ErrorInfo detail — the A2A v1.0 error shape.
+  - url: https://www.remerrill.com/api/a2a
+    method: POST
+    body: '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
+    http_status: 200
+    response: '{"jsonrpc":"2.0","id":2,"error":{"code":-32601,"message":"Method not found"}}'
+    note: Not an MCP server; unknown methods get the standard JSON-RPC -32601.
+  - url: https://a2aregistry.org/api/agents?search=merrill
+    http_status: 200
+    note: >-
+      The card was first seen as one of 415 agents on a2aregistry.org (author "R.E. Merrill & Associates,
+      Inc.", registered 2026-08-26, maintainer note "Verified working at registration"), which is how this
+      provider entered the harvest backlog. The registry was the lead; the card above was fetched from the
+      provider's host. The registry marks it conformant against its own checker; this manifest grades it
+      against the catalog's A2A 1.0.0 rules below, which differ.
+agent_card:
+  name: RE Merrill Pump Application Agent
+  description: >-
+    Industrial pump selection assistance from R.E. Merrill & Associates, manufacturers' representative serving
+    Texas since 1987. Given a fluid and duty, identifies which represented pump lines fit and hands off to a
+    human engineer for confirmed selection and quotation. Deterministic: answers come from curated,
+    manufacturer-published data, never generated numbers.
+  url: null
+  interface_url: https://www.remerrill.com/api/a2a
+  version: 1.0.0
+  protocol_version: null
+  interface_protocol_version: '1.0'
+  preferred_transport: null
+  interface_protocol_binding: JSONRPC
+  provider:
+    organization: R.E. Merrill & Associates, Inc.
+    url: https://www.remerrill.com
+  documentation_url: https://www.remerrill.com/llms.txt
+  capabilities:
+    streaming: false
+    push_notifications: false
+    extended_agent_card: false
+  default_input_modes: [application/json, text/plain]
+  default_output_modes: [application/json, text/plain]
+  security_schemes: null
+  security: null
+  signatures: 1 JWS (protected header alg ES256, typ JOSE, kid remerrill-a2a-2026-08, jku https://www.remerrill.com/.well-known/jwks.json)
+  skill_count: 4
+  skills:
+  - {id: line-finder, name: Pump line finder, tags: [pump-selection, corrosive-fluid-pumping, chemical-pumps, industrial-equipment, texas], examples: 3}
+  - {id: line-finder-grundfos, name: Grundfos dosing pump coverage, tags: [dosing-pumps, metering-pumps, chemical-feed, grundfos, texas], examples: 2}
+  - {id: line-finder-continental-ultrapump, name: Continental progressing cavity coverage, tags: [progressing-cavity-pumps, sludge-pumps, polymer-feed, viscous-fluids, texas], examples: 2}
+  - {id: request-quote, name: Request a quote, tags: [rfq, quotation, pump-quote], examples: 1, note: 'A handoff, not an API call: every line-finder response carries an rfqUrl that prefills the human contact form.'}
+  skill_invocation: >-
+    One real skill (line-finder) invoked by sending the duty JSON as a data part (or as text) to SendMessage;
+    the two per-line skills describe the curated coverage the same call draws on (116 Grundfos and 105
+    Continental model envelopes, each verdict citing a printed catalog page) rather than separate operations;
+    request-quote is a web-form handoff. The same verdict is available as plain POST /api/line-finder
+    (openapi/remerrill-com-openapi.yml#findPumpLines).
+conformance:
+  spec: A2A 1.0.0
+  grade: flavored
+  grade_source: computed by network/scripts/lib_agent_card.grade_agent_card on the verbatim card, 2026-09-19
+  protocol_version: null
+  preferred_transport: null
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: false
+    skills_is_array: true
+  optional_fields:
+    default_input_modes: true
+    default_output_modes: true
+    preferred_transport: false
+  grade_basis: >-
+    Graded against the catalog's A2A 1.0.0 hard checks. capabilities is an OBJECT (pass: streaming,
+    pushNotifications, extendedAgentCard). skills is an ARRAY (pass: four skills, each with id, name,
+    description, tags and examples). protocolVersion is NOT present at the top level (fail), which makes the
+    grade flavored. The card carries its protocol version inside supportedInterfaces[0].protocolVersion
+    ("1.0") alongside protocolBinding JSONRPC and the endpoint URL — the per-interface shape of the A2A v1.0
+    AgentInterface object — and has no top-level url or preferredTransport either. The provider's own docs
+    call it an "A2A v1.0 agent card, signed per A2A v1.0", and the live endpoint behaves as an A2A v1.0
+    responder (SendMessage, TASK_STATE_COMPLETED, -32001 with google.rpc.ErrorInfo), so the shape is a
+    deliberate 1.0 rendering rather than a malformed 0.3 card. The grade is the rule's verdict, recorded as
+    the rule produces it; the observation is recorded here so a reader can see what the fail consists of.
+  deviations:
+  - id: no-protocolVersion
+    field: protocolVersion
+    observed: absent at top level; present as supportedInterfaces[0].protocolVersion "1.0"
+    note: The hard check that sets the grade. See grade_basis.
+  - id: supportedInterfaces-instead-of-additionalInterfaces
+    field: supportedInterfaces
+    observed: one interface {url https://www.remerrill.com/api/a2a, protocolBinding JSONRPC, protocolVersion "1.0"}; no top-level url, no additionalInterfaces
+    note: The v1.0 AgentInterface shape. Recorded because both card shapes coexist in the catalog.
+  - id: no-preferredTransport
+    field: preferredTransport
+    observed: absent
+    note: The transport is stated per interface as protocolBinding JSONRPC.
+  - field: securitySchemes / security
+    observed: absent
+    note: >-
+      The card declares no authentication and the endpoint requires none — every documented call answered
+      anonymously. Consistent, and honest: there is no credential to omit. The registry listing renders this
+      as security [] and securitySchemes {}.
+  - field: signatures
+    observed: one JWS, ES256, kid remerrill-a2a-2026-08, jku on the same host
+    note: >-
+      One of the few cards in the catalog that is signed and publishes its JWKS. Signature verification was
+      not performed by this pipeline; the key set was fetched and matches the header's kid and alg.
+  - field: skills[3] (request-quote)
+    observed: describes a prefilled web form at https://www.remerrill.com/contact, not an operation the agent performs
+    note: A human handoff advertised as a skill. The card says so plainly ("No pricing is returned by the agent; quotes come from an engineer").
+  - field: skills[1], skills[2]
+    observed: coverage descriptions for the same line-finder call (source brochure vintages 2012 and 2021, model counts, units)
+    note: Not separately invocable; they document what the one skill can answer and where its data stops. Useful, and unusual — most cards do not state their data provenance.
+surface_relationship:
+  note: >-
+    Two surfaces on one host, one capability. REST: POST https://www.remerrill.com/api/line-finder
+    (openapi/remerrill-com-openapi.yml). A2A: POST https://www.remerrill.com/api/a2a SendMessage, whose task
+    artifact is "the exact line-finder response plus a text summary" (provider's words; confirmed by
+    comparing the two live responses). No MCP server, no OpenAPI published by the provider, no
+    authentication on either surface. The agent is stateless: tasks are not retained after SendMessage.

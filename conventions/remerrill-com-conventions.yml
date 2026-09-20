@@ -1,0 +1,96 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.remerrill.com/llms.txt
+derived_from: openapi/remerrill-com-openapi.yml
+docs:
+- https://www.remerrill.com/llms.txt
+- https://www.remerrill.com/.well-known/agent-card.json
+base_url: https://www.remerrill.com
+media_type: application/json
+surface:
+  operations: 2
+  writes: 0
+  note: >-
+    One capability on two transports. POST /api/line-finder (findPumpLines) and POST /api/a2a SendMessage
+    (sendA2AMessage) are both stateless queries over curated catalog tables; POST is used to carry a JSON body,
+    not to create or change anything. The provider says so directly ("Synchronous, stateless"; "Tasks ... are not
+    retained afterward"). The only action with consequences — a quotation — happens off-API, when a human
+    submits the prefilled contact form at rfqUrl and an engineer replies.
+auth:
+  style: none
+  description: No API key, token or OAuth on either endpoint; the agent card declares no securitySchemes; no OAuth metadata is served on the host. Every documented example runs anonymously.
+  detail: authentication/remerrill-com-authentication.yml
+idempotency:
+  supported: null
+  coverage: na
+  mechanism: null
+  header: null
+  scope: []
+  retention: null
+  description: >-
+    Not applicable: there is no mutating surface. Both operations are deterministic reads — the provider
+    describes the verdict as coming "only from curated tables of manufacturer-published data" — so repeating a
+    request yields the same answer and creates nothing. No Idempotency-Key exists and none is needed. The A2A
+    task id and contextId in a SendMessage response are fresh UUIDs per call but the task is discarded
+    immediately, so replaying a message has no state to collide with.
+reversibility:
+  status: na
+  description: >-
+    Not applicable: the API performs no action that could need reversing. It quotes nothing, orders nothing,
+    stores nothing. The request-quote "skill" hands the duty to a human via a web form; anything that follows
+    is a human commercial conversation outside the API.
+  write_surfaces: []
+dry_run_mode:
+  status: na
+  description: Every call is already consequence-free; a dry run would be the call itself.
+request_shape:
+  duty:
+    required: [fluid]
+    exactly_one_of:
+    - [flowGpm, flowGph]
+    - [pressurePsi, headFt]
+    optional: [concentrationPct, temperatureF, service]
+    service_enum: [transfer, feed, sump, slurry, boiler]
+    units: 'US customary (gpm or gph, psi or ft, °F, percent). Grundfos verdicts are compared in US gph, Continental in US gpm — the catalogs'' native units.'
+    source: the agent's own text reply to a natural-language message, which restates this schema verbatim; llms.txt "## API"; agent card skill line-finder
+  a2a_message:
+    method: SendMessage
+    role: ROLE_USER
+    parts: 'one part — {data: <duty>} or {text: "<duty as JSON>"}'
+    header: 'A2A-Version: 1.0 (sent by the provider''s own example)'
+response_shape:
+  rest: LineFinderResult {matches[], unresolved[], coverage{curated[], consultRem[], note}, rfqUrl}
+  a2a_resolvable: 'result.task {id, contextId, status {state TASK_STATE_COMPLETED, timestamp}, artifacts[0] {name line-finder-result, parts [{data <LineFinderResult>}, {text summary}]}}'
+  a2a_unparseable: 'result.message {role ROLE_AGENT, parts [{text <schema restatement>, mediaType text/plain}]}'
+  rfq_url: Site-relative (/contact?duty=...); resolve against https://www.remerrill.com.
+determinism:
+  stated: true
+  description: >-
+    "Deterministic: answers come from curated, manufacturer-published data, never generated numbers. Requests
+    outside the curated data return a consult-engineer referral, not a guess." Every rationale names the
+    smallest covering model, its family, the source catalog and its printed page. The agent does not interpret
+    natural language.
+pagination:
+  style: none
+  note: Single-object responses.
+expansion: {supported: false}
+metadata: {supported: false}
+request_id:
+  header: null
+  note: No request-id or trace header is returned. Vercel's x-vercel-id edge header is present but is infrastructure, not an API contract.
+versioning:
+  scheme: unversioned paths; A2A-Version header on the A2A surface; card version 1.0.0
+  detail: lifecycle/remerrill-com-lifecycle.yml
+error_envelope:
+  rest: '{error, reason, rfqUrl} — plain JSON, not RFC 9457'
+  a2a: 'JSON-RPC 2.0 error {code, message, data[google.rpc.ErrorInfo]} with HTTP 200'
+  detail: errors/remerrill-com-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  note: None observed on 200, 400 or 405 responses; none documented.
+  detail: rate-limits/remerrill-com-rate-limits.yml
+cors:
+  observed: 'OPTIONS /api/line-finder → 204, Allow: OPTIONS, POST; OPTIONS /api/a2a → 204, Allow: GET, HEAD, OPTIONS, POST. The agent card is served with access-control-allow-origin: *.'
+caching:
+  agent_card: 'cache-control: public, max-age=3600; ETag; last-modified 2026-09-14'
+  api: 'cache-control: public, max-age=0, must-revalidate'

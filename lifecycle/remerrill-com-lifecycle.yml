@@ -1,0 +1,34 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.remerrill.com/llms.txt
+derived_from: openapi/remerrill-com-openapi.yml
+docs:
+- https://www.remerrill.com/.well-known/agent-card.json
+versioning:
+  scheme: unversioned paths; version carried on the agent card (version 1.0.0) and per interface (protocolVersion "1.0"); the provider's A2A example sends an A2A-Version 1.0 header
+  current_version: 1.0.0 (agent card version); A2A protocol 1.0
+  policy_published: false
+  note: >-
+    No versioning policy page. The card's last-modified header (Mon, 14 Sep 2026) and its signing key id
+    (remerrill-a2a-2026-08) are the only dated version signals; the registry lists the agent as registered
+    2026-08-26. The Grundfos coverage skill states its source brochure vintage (2012, L-DOS-SL-02 Rev. 10-12)
+    and that REM verifies against current factory literature before quoting — a data-currency statement,
+    which most APIs never make.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: No deprecation policy, no Sunset/Deprecation headers observed, nothing marked deprecated. Two operations, both current.
+status_page:
+  published: false
+  probed: [https://www.remerrill.com/status]
+  note: 404. The third-party a2aregistry.org listing reports its own health checks (100% uptime, avg 1,562 ms) but that is the registry's monitor, not a provider status page — no StatusPage pointer is emitted.
+sla:
+  published: false
+  note: None. The site says quotes come from an engineer; no response-time commitment for the API.
+changelog:
+  published: false
+  probed: [https://www.remerrill.com/changelog]
+  note: 404. No dated changelog; no ChangeLog artifact is written.

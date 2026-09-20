@@ -1,0 +1,16 @@
+generated: '2026-09-19'
+method: probed
+source: live responses from POST https://www.remerrill.com/api/line-finder and POST https://www.remerrill.com/api/a2a, 2026-09-19
+docs:
+- https://www.remerrill.com/llms.txt
+limit_count: 0
+summary: >-
+  No rate limits are documented anywhere the provider publishes (llms.txt, agent card), and none are signalled
+  at runtime: the observed 200, 400 and 405 responses carry no X-RateLimit-*, RateLimit-* or Retry-After
+  headers. The endpoints run on Vercel, so whatever platform-level throttling exists is undisclosed. An honest
+  zero: checked, nothing to record.
+rate_limits: []
+headers_observed:
+  on_200: [cache-control, content-type, date, server, strict-transport-security, vary, x-matched-path, x-vercel-cache, x-vercel-id]
+  rate_limit_headers: []
+  exhaustion_status: unknown (never reached; not documented)

@@ -1,0 +1,14 @@
+generated: '2026-09-19'
+method: generated
+source: >-
+  openapi/remerrill-com-openapi.yml (both operationIds verified against the spec), the provider's llms.txt
+  "## API" and "## For AI agents" sections, the agent card's skill descriptions, and the agent's own schema
+  restatement observed live on 2026-09-19. R.E. Merrill publishes no skills or AGENTS.md of its own
+  (llms.txt is the closest thing, and it is saved verbatim under llms/).
+skills:
+- file: remerrill-com-find-pump-line.md
+  name: remerrill-com-find-pump-line
+  method: generated
+  description: Turn a pumping duty into a deterministic shortlist of represented pump lines, over REST or A2A, and hand anything the API will not decide to an R.E. Merrill engineer.
+  operations: 2
+  operation_ids: [findPumpLines, sendA2AMessage]

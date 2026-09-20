@@ -1,0 +1,47 @@
+generated: '2026-09-19'
+method: derived
+source: openapi/remerrill-com-openapi.yml
+docs: https://www.remerrill.com/llms.txt
+summary: >-
+  Derived from the seven component schemas of the generated OpenAPI and the live responses they describe. The
+  graph is a query and its answer: a DUTY goes in, a LINE-FINDER RESULT comes out, and the result is a list of
+  LINE MATCHES, each a represented PUMP LINE with the PUMP FAMILIES whose curated model envelopes cover the
+  duty. Nothing is persisted and nothing has an identifier a client can fetch again; lines are identified by
+  slug, which is also the path segment of the human page under /lines/<lineSlug>. Over A2A the same result is
+  wrapped in a Task with one Artifact.
+id_style:
+  format: human-readable slugs for lines and families (grundfos, dmh-280, ck2000); UUIDs for A2A task, context and artifact ids (not retained)
+entities:
+- name: Duty
+  description: The request. fluid required; exactly one of flowGpm/flowGph and of pressurePsi/headFt; optional concentrationPct, temperatureF, service (enum of 5).
+  schemas: [Duty]
+  relationships:
+  - {produces: LineFinderResult, via: 'POST /api/line-finder or A2A SendMessage'}
+- name: LineFinderResult
+  description: The verdict. matches[], unresolved[] (what a human must decide), coverage (curated vs consult-REM lines), rfqUrl (the human handoff, prefilled with the Duty).
+  schemas: [LineFinderResult, Coverage]
+  relationships:
+  - {has_many: LineMatch, via: matches}
+  - {has_many: PumpLine, via: 'coverage.curated (LineRef) and coverage.consultRem (names)'}
+- name: PumpLine
+  description: One of the 13 manufacturer lines R.E. Merrill represents (lineSlug, lineName). Human page at https://www.remerrill.com/lines/<lineSlug>; curated lines also have /lines/<lineSlug>/specifications.
+  schemas: [LineRef]
+  relationships:
+  - {has_many: PumpFamily}
+- name: LineMatch
+  description: A PumpLine that fits the Duty, with the families that cover it and a rationale naming the smallest covering model and its printed catalog page.
+  schemas: [LineMatch]
+  relationships:
+  - {belongs_to: PumpLine, via: lineSlug}
+  - {has_many: PumpFamily, via: families}
+- name: PumpFamily
+  description: A model family within a line (id, name) with matchingModels — the count of curated model envelopes covering the duty.
+  schemas: [PumpFamily]
+  relationships:
+  - {belongs_to: PumpLine}
+- name: A2A Task / Artifact
+  description: The A2A wrapper — task {id, contextId, status, artifacts[]} with one artifact named line-finder-result whose parts are [{data LineFinderResult}, {text summary}]. Completed synchronously; not retrievable afterwards.
+  schemas: [JsonRpcResponse]
+  relationships:
+  - {has_one: LineFinderResult, via: 'artifacts[0].parts[0].data'}
+render: null

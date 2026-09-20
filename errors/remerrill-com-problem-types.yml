@@ -1,0 +1,64 @@
+generated: '2026-09-19'
+method: derived
+source: openapi/remerrill-com-openapi.yml
+probed: true
+docs: https://www.remerrill.com/llms.txt
+format: json-error-object
+envelope:
+  media_type: application/json
+  fields:
+  - name: error
+    description: Short failure name ("Invalid request", "Method not allowed").
+  - name: reason
+    description: Detail. On 400 the failing fields concatenated into one string; on the A2A 405 a sentence pointing at the agent card.
+  - name: rfqUrl
+    description: REST only. Always present, even on errors — the human fallback (/contact).
+  - name: agentCard
+    description: A2A 405 only. The discovery URL.
+  observed:
+  - {status: 400, body: '{"error":"Invalid request","reason":"fluid: Invalid input flowGph: Invalid input","rfqUrl":"/contact"}', url: 'POST https://www.remerrill.com/api/line-finder with {"flowGph":"x"}'}
+  - {status: 405, body: '(empty)', url: 'GET https://www.remerrill.com/api/line-finder', note: 'OPTIONS returns 204 with Allow: OPTIONS, POST.'}
+  - {status: 405, body: '{"error":"Method not allowed","reason":"This is the A2A v1.0 JSON-RPC endpoint; POST a JSON-RPC 2.0 request. Agent discovery starts at the agent card.","agentCard":"https://www.remerrill.com/.well-known/agent-card.json"}', url: 'GET https://www.remerrill.com/api/a2a'}
+  - {status: 404, body: 'Next.js HTML 404 page ("404: This page could not be found")', url: 'https://www.remerrill.com/openapi.json', note: 'The generic 404 for every unknown path — a real 404 status, never a soft-200.'}
+  note: >-
+    Not RFC 9457: no type URI, no title/status/instance fields. The provider publishes no error reference;
+    everything here was observed live on 2026-09-19 or derived from the generated OpenAPI. The A2A surface uses
+    JSON-RPC 2.0 error objects instead, returned with HTTP 200.
+problem_types:
+- status: 400
+  title: Invalid request
+  source_operations: [findPumpLines]
+  causes:
+  - fluid missing or not a string (it is the only required field)
+  - a numeric field (flowGpm, flowGph, pressurePsi, headFt, concentrationPct, temperatureF) that is not a number
+  - service outside the published enum (transfer | feed | sump | slurry | boiler)
+  remediation: >-
+    Fix the named fields; the reason string lists each one as "<field>: Invalid input". Send exactly one of
+    flowGpm/flowGph and exactly one of pressurePsi/headFt. Nothing is stored, so a retry is free.
+- status: 405
+  title: Method not allowed
+  source_operations: [findPumpLines, sendA2AMessage]
+  causes:
+  - GET/HEAD on /api/line-finder (Allow is OPTIONS, POST) or GET on /api/a2a
+  remediation: POST a JSON body. The A2A 405 body carries the agent card URL; start discovery there.
+jsonrpc_errors:
+  surface: POST https://www.remerrill.com/api/a2a
+  http_status: 200
+  errors:
+  - code: -32001
+    message: Task not found
+    a2a_error: TaskNotFoundError
+    data: 'google.rpc.ErrorInfo {reason TASK_NOT_FOUND, domain remerrill.com, metadata {taskId, note}}'
+    cause: GetTask for any id — tasks complete synchronously inside SendMessage and are not retained.
+    remediation: Do not poll. Read the task from the SendMessage response.
+  - code: -32601
+    message: Method not found
+    cause: Any method other than the implemented A2A methods (observed for tools/list).
+    remediation: Use SendMessage.
+soft_failures:
+  note: >-
+    An unresolvable duty is NOT an error. A duty outside every curated envelope, or one whose fluid/
+    concentration/temperature/service cannot be decided by the tables, still returns 200 with the reasons under
+    unresolved[] and the human path in rfqUrl — the provider's "consult-REM referral, not a guess". Over A2A a
+    non-JSON natural-language message returns a ROLE_AGENT text message restating the expected duty schema,
+    also with HTTP 200 and no JSON-RPC error.

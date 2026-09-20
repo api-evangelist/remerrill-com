@@ -1,0 +1,42 @@
+generated: '2026-09-19'
+method: derived
+status: candidate
+source: openapi/remerrill-com-openapi.yml
+docs: https://www.remerrill.com/llms.txt
+summary: >-
+  R.E. Merrill ships NO MCP server. Probed 2026-09-19: /mcp and /api/mcp both return the site's real 404;
+  a JSON-RPC tools/list posted to the A2A endpoint /api/a2a returns -32601 Method not found; no MCP server is
+  named in llms.txt, on the agent card, or in any registry searched. What the provider does ship is an A2A
+  v1.0 agent (a2a/remerrill-com-a2a.yml) and an unauthenticated REST endpoint. The tool below is a CANDIDATE
+  derived from the generated OpenAPI's one query operation, so an MCP host that wanted to wrap this API would
+  know its shape; nobody serves it.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+  note: >-
+    No hosted endpoint, no stdio package. The closest live agent surface is A2A at
+    https://www.remerrill.com/api/a2a (SendMessage), which answers anonymously.
+server:
+  name: remerrill-line-finder
+  transport: null
+  url: null
+tools:
+- name: find_pump_lines
+  description: >-
+    Given a pumping duty (fluid, optional concentration and temperature, flow in gpm or gph, pressure in psi or
+    head in ft, optional service type), return which R.E. Merrill-represented pump lines fit, with per-family
+    matching-model counts, a rationale citing the manufacturer catalog page, the items the provider
+    deliberately leaves to a human engineer, and a prefilled request-for-quote URL. Deterministic; curated
+    coverage is Grundfos dosing and Continental progressing cavity; other lines return consult-REM.
+  source_operation: openapi/remerrill-com-openapi.yml#findPumpLines
+  inputSchema:
+    $ref: openapi/remerrill-com-openapi.yml#/components/schemas/Duty
+  annotations:
+    readOnlyHint: true
+    idempotentHint: true
+    destructiveHint: false
+    openWorldHint: true

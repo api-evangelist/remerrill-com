@@ -1,0 +1,28 @@
+generated: '2026-09-19'
+method: probed
+source: live calls to POST https://www.remerrill.com/api/line-finder and POST https://www.remerrill.com/api/a2a, 2026-09-19
+derived_from: openapi/remerrill-com-openapi.yml
+docs:
+- https://www.remerrill.com/llms.txt
+- https://www.remerrill.com/.well-known/agent-card.json
+summary: >-
+  No authentication on any surface. The provider's documented curl examples send no credential and both
+  endpoints answered them anonymously with 200; the agent card declares no securitySchemes or security
+  requirements; no OAuth/OIDC discovery document is served (/.well-known/oauth-authorization-server,
+  /.well-known/oauth-protected-resource and /.well-known/openid-configuration all 404). derive-authentication.py
+  found zero securitySchemes in the OpenAPI and wrote nothing, which is correct — this file records the
+  absence so an agent knows it needs no key.
+schemes: []
+security_schemes_count: 0
+applies_to:
+  findPumpLines: none
+  sendA2AMessage: none
+signing:
+  note: >-
+    The one cryptographic control is on the PROVIDER's side, not the caller's: the agent card is JWS-signed
+    (ES256, kid remerrill-a2a-2026-08) with the public key set at https://www.remerrill.com/.well-known/jwks.json,
+    so a client can verify the card's origin. Nothing signs requests.
+transport:
+  https: true
+  hsts: 'max-age=63072000 on every response'
+  http_redirect: 'http://remerrill.com and the apex 308 to https://www.remerrill.com'

@@ -1,0 +1,78 @@
+generated: '2026-09-19'
+method: searched
+source: https://www.remerrill.com/.well-known/agent-card.json
+derived_from: openapi/remerrill-com-openapi.yml
+docs:
+- https://www.remerrill.com/llms.txt
+summary: >-
+  R.E. Merrill's conformance profile is the agent-protocol stack around one deterministic endpoint: an A2A
+  v1.0 agent card (JWS-signed, ES256, JWKS published) over a JSON-RPC 2.0 endpoint that returns A2A-shaped
+  tasks and google.rpc.ErrorInfo error details, plus a plain JSON REST twin. It declares no OAuth/OIDC (the
+  surface is unauthenticated), no RFC 9457 problem details, no RFC 9116 security.txt, no RFC 9727 API
+  catalog and no RFC 8594 sunset signalling. Industrial pump distribution has no sector API standard to
+  declare, so no domain-standard signature is asserted — that field is reward-only and is left empty
+  rather than filled.
+standards:
+- id: a2a
+  name: Agent2Agent protocol
+  version: '1.0'
+  conforms: true
+  grade: flavored
+  evidence: >-
+    a2a/remerrill-com-agent-card.json — supportedInterfaces[0] {url https://www.remerrill.com/api/a2a,
+    protocolBinding JSONRPC, protocolVersion "1.0"}, capabilities object, skills[] of 4. POST /api/a2a
+    SendMessage returned result.task with status.state TASK_STATE_COMPLETED and a line-finder-result artifact;
+    GetTask returned -32001 Task not found with a google.rpc.ErrorInfo detail (reason TASK_NOT_FOUND). Graded
+    flavored by the catalog's 1.0.0 rule because protocolVersion is per-interface rather than top-level —
+    see a2a/remerrill-com-a2a.yml.
+- id: jws-signed-agent-card
+  name: A2A agent card signature (JWS, RFC 7515) with published JWKS (RFC 7517)
+  conforms: true
+  evidence: >-
+    signatures[0].protected decodes to {alg ES256, typ JOSE, kid remerrill-a2a-2026-08, jku
+    https://www.remerrill.com/.well-known/jwks.json}; the JWKS was fetched (200) and carries one matching
+    EC P-256 key. Presence and key match verified; the signature itself was not cryptographically verified by
+    this pipeline.
+- id: json-rpc-2.0
+  conforms: true
+  evidence: 'POST /api/a2a answers {"jsonrpc":"2.0", ...} with -32601 Method not found for unknown methods and -32001 for unknown tasks.'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: 'The REST 400 body is {error, reason, rfqUrl}; no application/problem+json, no type/title/status fields.'
+- id: oauth2
+  conforms: false
+  evidence: No securitySchemes; both endpoints answer anonymously; /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource 404.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt and /security.txt both 404.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog 404.
+- id: apis-json
+  conforms: false
+  evidence: /apis.json, /apis.yml and /.well-known/apis.json 404.
+- id: llms-txt
+  conforms: true
+  evidence: https://www.remerrill.com/llms.txt (200, 12,147 bytes) follows the llms.txt shape — H1, blockquote summary, H2 sections of link lists — and is the document the agent card's documentationUrl names.
+- id: mcp
+  conforms: false
+  evidence: No MCP server is published or referenced; /mcp and /api/mcp 404; tools/list on /api/a2a returns -32601.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Deprecation or Sunset headers on any observed response; no versioning or deprecation policy published.
+- id: pagination
+  conforms: false
+  applicable: false
+  evidence: Single-object responses; no collections.
+- id: idempotency
+  conforms: false
+  applicable: false
+  evidence: The only operation is a stateless query (POST used for a JSON body); there is no write surface to protect. See conventions/.
+domain_standard:
+  asserted: false
+  note: >-
+    No sector standard applies to a pump manufacturers' representative's selection API (no SCIM/OData/OpenRTB/
+    HL7/ISO-20022-class shape exists for this market). Left empty on purpose; reward-only.

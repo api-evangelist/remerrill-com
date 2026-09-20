@@ -1,0 +1,38 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the R.E. Merrill Pump Line Finder API
+  version: 1.0.0
+  description: >-
+    Overlay over openapi/remerrill-com-openapi.yml. The base document is itself API Evangelist-generated
+    (the provider publishes no OpenAPI), so this overlay carries only the catalog-facing extensions —
+    agentic-access classification and the link back to the A2A surface — rather than corrections.
+    Generated 2026-09-19.
+extends: openapi/remerrill-com-openapi.yml
+actions:
+- target: $.info
+  description: Catalog metadata
+  update:
+    x-apievangelist-slug: remerrill-com
+    x-apievangelist-agent-card: https://www.remerrill.com/.well-known/agent-card.json
+    x-apievangelist-llms-txt: https://www.remerrill.com/llms.txt
+- target: $.paths['/api/line-finder'].post
+  description: A read-only computation despite the POST verb — no state is created or changed.
+  update:
+    x-agentic-access:
+      action_class: read
+      consequence: none
+      side_effects: false
+      idempotent: true
+      reversible: not-applicable
+      auth: none
+      escalation: The rfqUrl in the response hands off to a human engineer at https://www.remerrill.com/contact; the API never quotes or commits.
+- target: $.paths['/api/a2a'].post
+  description: Same classification as the REST twin; the A2A task completes synchronously and is not retained.
+  update:
+    x-agentic-access:
+      action_class: read
+      consequence: none
+      side_effects: false
+      idempotent: true
+      reversible: not-applicable
+      auth: none

@@ -1,0 +1,14 @@
+generated: '2026-09-19'
+method: searched
+source: registry searches 2026-09-19
+package_count: 0
+packages: []
+searched:
+- {registry: npm, query: 'https://registry.npmjs.org/-/v1/search?text=remerrill', result: 0 packages}
+- {registry: pypi, query: 'https://pypi.org/pypi/remerrill/json', status: 404}
+- {registry: github, query: 'https://api.github.com/search/repositories?q=remerrill', result: 0 repositories}
+- {registry: github-user, query: 'https://api.github.com/users/remerrill', status: 404}
+note: >-
+  R.E. Merrill publishes no client library, CLI or SDK in any registry searched, and its llms.txt references
+  none — the documented way in is a curl POST to /api/line-finder or an A2A SendMessage. No Packages or SDKs
+  pointer is emitted.

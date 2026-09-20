@@ -1,0 +1,13 @@
+{
+  "keys": [
+    {
+      "kty": "EC",
+      "x": "c8K8ZVRlqEsf9TsQ8IvYIlQSntdST45t63y27BW70S0",
+      "y": "SlcoMYTpW0Upw5hT0n_6J8qEBOJsEE2EjuzrjChhvXk",
+      "crv": "P-256",
+      "kid": "remerrill-a2a-2026-08",
+      "use": "sig",
+      "alg": "ES256"
+    }
+  ]
+}
