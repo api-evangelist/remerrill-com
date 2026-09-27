@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: R.E. Merrill Pump Line Finder A2A API
+  version: 1.0.0
+  summary: Deterministic pump line selection from R.E. Merrill & Associates, over plain HTTP and over A2A JSON-RPC.
+  description: R.E.
+  contact:
+    name: R.E. Merrill & Associates, Inc.
+    email: info@remerrill.com
+    url: https://www.remerrill.com/contact
+  x-apievangelist-provenance:
+    method: generated
+    generated: '2026-09-19'
+    generated_from:
+    - https://www.remerrill.com/llms.txt
+    - https://www.remerrill.com/.well-known/agent-card.json
+    - POST https://www.remerrill.com/api/line-finder (documented example; HTTP 200 observed 2026-09-19)
+    - POST https://www.remerrill.com/api/line-finder with an invalid body (HTTP 400 observed 2026-09-19)
+    - 'GET https://www.remerrill.com/api/line-finder (HTTP 405 observed 2026-09-19); OPTIONS returned Allow: OPTIONS, POST'
+    - POST https://www.remerrill.com/api/a2a SendMessage (documented example; HTTP 200 observed 2026-09-19)
+    - POST https://www.remerrill.com/api/a2a GetTask with an unknown id (JSON-RPC error -32001 observed 2026-09-19)
+    provider_publishes_openapi: false
+    note: 'A generated contract, not a harvested one. Probed and absent on 2026-09-19: /openapi.json, /openapi.yaml, /swagger.json, /api/openapi.json, /api-docs, /docs (all real 404s).'
+servers:
+- url: https://www.remerrill.com
+  description: Production. The apex remerrill.com 308-redirects every path to www.
+tags:
+- name: a2a
+  description: The same line finder over the Agent2Agent protocol v1.0 (JSON-RPC 2.0).
+paths:
+  /api/a2a:
+    post:
+      tags:
+      - a2a
+      operationId: sendA2AMessage
+      summary: A2A v1.0 JSON-RPC endpoint (SendMessage) for the same line finder
+      description: 'Agent2Agent protocol v1.0 over JSON-RPC 2.0. Send the duty JSON as a message part (a data part, or the same JSON as text) with method SendMessage; the provider''s example sets an A2A-Version: 1.0 header. The agent is synchronous and stateless: a resolvable duty returns a completed task whose artifact (name line-finder-result) carries exactly the POST /api/line-finder response plus a text summary; a non-JSON natural-language message returns an agent message that restates the expected duty schema rather than guessing. Tasks are not retained after SendMessage, so GetTask answers JSON-RPC error -32001 Task not found (google.rpc.ErrorInfo reason TASK_NOT_FOUND) for any id; unknown methods return -32601 Method not found. No streaming, no push notifications, no authentication. GET returns 405 with a JSON pointer to the agent card. Discovery: https://www.remerrill.com/.well-known/agent-card.json.'
+      parameters:
+      - name: A2A-Version
+        in: header
+        required: false
+        schema:
+          type: string
+          examples:
+          - '1.0'
+        description: Protocol version header the provider's own example sends.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRpcRequest'
+            examples:
+              send-duty:
+                summary: The provider's documented SendMessage example
+                value:
+                  jsonrpc: '2.0'
+                  id: 1
+                  method: SendMessage
+                  params:
+                    message:
+                      messageId: m1
+                      role: ROLE_USER
+                      parts:
+                      - data:
+                          fluid: sodium hypochlorite
+                          concentrationPct: 12.5
+                          flowGph: 2
+                          pressurePsi: 40
+                          service: feed
+      responses:
+        '200':
+          description: A JSON-RPC 2.0 envelope — either a result (task with a line-finder-result artifact, or an agent message) or an error object. JSON-RPC errors are returned with HTTP 200.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRpcResponse'
+              examples:
+                task-not-found:
+                  summary: Observed 2026-09-19 for GetTask with an unknown id
+                  value:
+                    jsonrpc: '2.0'
+                    id: 3
+                    error:
+                      code: -32001
+                      message: Task not found
+                      data:
+                      - '@type': type.googleapis.com/google.rpc.ErrorInfo
+                        reason: TASK_NOT_FOUND
+                        domain: remerrill.com
+                        metadata:
+                          taskId: apievangelist-nonexistent-probe
+                          note: Tasks on this agent complete synchronously inside SendMessage and are not retained afterward.
+                method-not-found:
+                  summary: Observed 2026-09-19 for an unknown method
+                  value:
+                    jsonrpc: '2.0'
+                    id: 2
+                    error:
+                      code: -32601
+                      message: Method not found
+        '405':
+          description: GET is not served. Body is a JSON object with error, reason and agentCard (the discovery URL).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  reason:
+                    type: string
+                  agentCard:
+                    type: string
+                    format: uri
+              example:
+                error: Method not allowed
+                reason: This is the A2A v1.0 JSON-RPC endpoint; POST a JSON-RPC 2.0 request. Agent discovery starts at the agent card.
+                agentCard: https://www.remerrill.com/.well-known/agent-card.json
+components:
+  schemas:
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          const: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        method:
+          type: string
+          description: A2A v1.0 method name. SendMessage is the implemented operation; GetTask answers -32001 for every id (tasks are not retained); anything else answers -32601.
+          examples:
+          - SendMessage
+          - GetTask
+        params:
+          type: object
+          description: 'For SendMessage: {message: {messageId, role: ROLE_USER, parts: [{data: <Duty>} | {text: "<Duty as JSON>"}]}}.'
+    JsonRpcResponse:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      properties:
+        jsonrpc:
+          type: string
+          const: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        result:
+          type: object
+          description: 'On a resolvable duty: {task: {id, contextId, status: {state: TASK_STATE_COMPLETED, timestamp}, artifacts: [{artifactId, name: line-finder-result, description, parts: [{data: <LineFinderResult>}, {text: <summary>}]}]}}. On a non-JSON message: {message: {messageId, role: ROLE_AGENT, parts: [{text, mediaType: text/plain}]}} restating the expected duty schema.'
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              description: -32001 Task not found (A2A TaskNotFoundError); -32601 Method not found.
+            message:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                description: google.rpc.ErrorInfo-shaped detail (@type, reason, domain, metadata).
+externalDocs:
+  description: Provider documentation (llms.txt) — the only published reference for this API
+  url: https://www.remerrill.com/llms.txt

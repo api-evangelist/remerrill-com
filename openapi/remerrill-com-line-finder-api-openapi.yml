@@ -1,0 +1,245 @@
+openapi: 3.2.0
+info:
+  title: R.E. Merrill Pump Line Finder API
+  version: 1.0.0
+  summary: Deterministic pump line selection from R.E. Merrill & Associates, over plain HTTP and over A2A JSON-RPC.
+  description: R.E.
+  contact:
+    name: R.E. Merrill & Associates, Inc.
+    email: info@remerrill.com
+    url: https://www.remerrill.com/contact
+  x-apievangelist-provenance:
+    method: generated
+    generated: '2026-09-19'
+    generated_from:
+    - https://www.remerrill.com/llms.txt
+    - https://www.remerrill.com/.well-known/agent-card.json
+    - POST https://www.remerrill.com/api/line-finder (documented example; HTTP 200 observed 2026-09-19)
+    - POST https://www.remerrill.com/api/line-finder with an invalid body (HTTP 400 observed 2026-09-19)
+    - 'GET https://www.remerrill.com/api/line-finder (HTTP 405 observed 2026-09-19); OPTIONS returned Allow: OPTIONS, POST'
+    - POST https://www.remerrill.com/api/a2a SendMessage (documented example; HTTP 200 observed 2026-09-19)
+    - POST https://www.remerrill.com/api/a2a GetTask with an unknown id (JSON-RPC error -32001 observed 2026-09-19)
+    provider_publishes_openapi: false
+    note: 'A generated contract, not a harvested one. Probed and absent on 2026-09-19: /openapi.json, /openapi.yaml, /swagger.json, /api/openapi.json, /api-docs, /docs (all real 404s).'
+servers:
+- url: https://www.remerrill.com
+  description: Production. The apex remerrill.com 308-redirects every path to www.
+tags:
+- name: Line Finder
+  description: Deterministic pump line selection from curated, manufacturer-published performance data.
+paths:
+  /api/line-finder:
+    post:
+      tags:
+      - Line Finder
+      operationId: findPumpLines
+      summary: Find which represented pump lines fit a duty
+      description: 'Send a duty as JSON. Returns the represented lines whose curated model envelopes cover the stated flow and pressure, with per-family matching-model counts, a rationale naming the smallest covering model and its printed catalog source page, the items the endpoint deliberately does not resolve (fluid, concentration, temperature, service type), the curated-vs-consult-REM coverage of the represented lines, and an rfqUrl that prefills the contact form with the duty. Catalog performance is stated for water; R.E. Merrill confirms the selection for the actual fluid before quoting. Unauthenticated; stateless; GET returns 405 (Allow: OPTIONS, POST).'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Duty'
+            examples:
+              hypochlorite-feed:
+                summary: The provider's documented example
+                value:
+                  fluid: sodium hypochlorite
+                  concentrationPct: 12.5
+                  flowGph: 2
+                  pressurePsi: 40
+                  service: feed
+              sludge-transfer:
+                summary: Progressing-cavity duty (from the agent card)
+                value:
+                  fluid: municipal sludge
+                  flowGpm: 100
+                  pressurePsi: 50
+                  service: transfer
+      responses:
+        '200':
+          description: Line-finder verdict. An empty matches[] is still a 200 — the duty simply falls outside every curated envelope and the response routes to consult-REM.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineFinderResult'
+              examples:
+                hypochlorite-feed:
+                  summary: Observed response to the documented example (2026-09-19), family lists abbreviated
+                  value:
+                    matches:
+                    - lineSlug: grundfos
+                      lineName: Grundfos
+                      families:
+                      - id: dda
+                        name: DDA SMART Digital
+                        matchingModels: 3
+                      - id: dmh-280
+                        name: DMH 280 series
+                        matchingModels: 22
+                      rationale: '2 US gph at 40 psi falls inside 100 cataloged model envelopes across 9 families of the Grundfos line. Smallest covering model: DMH 281 6,4-100 (2 US gph at 1450 psi), DMH 280 series family, per Dosing All Product Brochure, printed page 25. Catalog performance is stated for water. REM confirms the selection for the actual fluid before quoting.'
+                    unresolved:
+                    - 'Fluid, concentration, and temperature are never resolved by this endpoint. Chemical compatibility is a safety determination: an REM engineer confirms materials for sodium hypochlorite, 12.5 percent against curated compatibility data and factory guidance. Send the duty through rfqUrl.'
+                    - Service type "feed" is not resolved by the curated tables, which cover flow and pressure envelopes only. REM confirms fit for the service at quoting.
+                    coverage:
+                      curated:
+                      - lineSlug: grundfos
+                        lineName: Grundfos
+                      - lineSlug: continental-ultrapump
+                        lineName: Continental Progressing Cavity UltraPump
+                      consultRem:
+                      - Vanton Pump & Equipment Corporation
+                      - DP Pumps USA
+                      - Pinnacle-Flo
+                      - Inc.
+                      - Vertiflo
+                      - Simtech Process Systems
+                      - TF Seals
+                      - Garbarino Pumps Asia Pte Ltd
+                      - GreenPumps
+                      - Pemo Pumps
+                      - Victor Pumps
+                      - Walrus Pump
+                      note: 'Curated selector tables, built only from manufacturer-published catalogs with per-row source citations, exist for the lines under curated. The remaining represented lines are consult-REM by design: send the duty through rfqUrl and an engineer responds.'
+                    rfqUrl: /contact?duty=Fluid%3A%20sodium%20hypochlorite%2C%2012.5%20percent.%20Flow%3A%202%20gph.%20Discharge%20pressure%3A%2040%20psi.%20Service%3A%20feed.
+        '400':
+          description: The body failed validation. The reason string concatenates the failing fields; rfqUrl still points at the human path.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalid:
+                  summary: Observed 2026-09-19 for {"flowGph":"x"}
+                  value:
+                    error: Invalid request
+                    reason: 'fluid: Invalid input flowGph: Invalid input'
+                    rfqUrl: /contact
+        '405':
+          description: Method not allowed — only POST (and OPTIONS) is served on this path. Observed on GET with an empty body.
+components:
+  schemas:
+    Coverage:
+      type: object
+      properties:
+        curated:
+          type: array
+          description: Lines for which curated selector tables exist (Grundfos, Continental UltraPump as of 2026-09-19).
+          items:
+            $ref: '#/components/schemas/LineRef'
+        consultRem:
+          type: array
+          description: Represented lines with no curated table; the duty goes to an engineer via rfqUrl.
+          items:
+            type: string
+        note:
+          type: string
+    PumpFamily:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Family slug
+          e.g. dda: null
+          dmh-280: null
+          ck2000.: null
+        name:
+          type: string
+          description: Family name as printed in the manufacturer catalog.
+        matchingModels:
+          type: integer
+          description: Number of curated model envelopes in this family that cover the duty.
+    LineMatch:
+      type: object
+      properties:
+        lineSlug:
+          type: string
+          description: Represented line slug; also the path segment under https://www.remerrill.com/lines/.
+        lineName:
+          type: string
+        families:
+          type: array
+          items:
+            $ref: '#/components/schemas/PumpFamily'
+        rationale:
+          type: string
+          description: Human-readable verdict naming the smallest covering model, its family, the source catalog and printed page, and the water-basis caveat.
+    LineFinderResult:
+      type: object
+      properties:
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineMatch'
+        unresolved:
+          type: array
+          description: What the endpoint deliberately did not decide (fluid compatibility, concentration, temperature, service) and why.
+          items:
+            type: string
+        coverage:
+          $ref: '#/components/schemas/Coverage'
+        rfqUrl:
+          type: string
+          description: Site-relative URL (resolve against https://www.remerrill.com) that prefills the contact form with the duty for a human quotation.
+    Duty:
+      type: object
+      description: A pumping duty as the provider defines it. Exactly one of flowGpm / flowGph and exactly one of pressurePsi / headFt (stated by the provider in prose; not expressible as a plain required list). Units are US customary. Fluid, concentration and temperature are accepted but never resolved by the endpoint — they are passed through to the engineer via rfqUrl.
+      required:
+      - fluid
+      properties:
+        fluid:
+          type: string
+          description: The pumped liquid, e.g. "sodium hypochlorite", "municipal sludge". Required; never resolved by the endpoint.
+        concentrationPct:
+          type: number
+          description: Concentration, percent. Passed through, not resolved.
+        temperatureF:
+          type: number
+          description: Temperature, degrees Fahrenheit. Passed through, not resolved.
+        flowGpm:
+          type: number
+          description: Flow in US gallons per minute. Use this OR flowGph, not both.
+        flowGph:
+          type: number
+          description: Flow in US gallons per hour (the native unit of the Grundfos dosing catalog). Use this OR flowGpm.
+        pressurePsi:
+          type: number
+          description: Discharge pressure, psi. Use this OR headFt, not both.
+        headFt:
+          type: number
+          description: Head, feet. Use this OR pressurePsi.
+        service:
+          type: string
+          enum:
+          - transfer
+          - feed
+          - sump
+          - slurry
+          - boiler
+          description: Service type. Recorded and passed to the engineer; the curated tables cover flow and pressure envelopes only, so service is reported under unresolved.
+      additionalProperties: true
+    LineRef:
+      type: object
+      properties:
+        lineSlug:
+          type: string
+        lineName:
+          type: string
+    ErrorResponse:
+      type: object
+      description: Plain JSON error object (not RFC 9457). Observed on 400.
+      properties:
+        error:
+          type: string
+          description: Short failure name
+          e.g. "Invalid request".: null
+        reason:
+          type: string
+          description: Field-level detail concatenated into one string.
+        rfqUrl:
+          type: string
+          description: Always present; the human fallback.
+externalDocs:
+  description: Provider documentation (llms.txt) — the only published reference for this API
+  url: https://www.remerrill.com/llms.txt

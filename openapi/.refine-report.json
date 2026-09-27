@@ -1,0 +1,20 @@
+{
+  "provider": "remerrill-com",
+  "sources": [
+    "remerrill-com-openapi.yml"
+  ],
+  "outputs": [
+    "remerrill-com-a2a-api-openapi.yml",
+    "remerrill-com-line-finder-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/remerrill-com-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "remerrill-com-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+2 apis, 3 total)"
+  ],
+  "skipped": []
+}

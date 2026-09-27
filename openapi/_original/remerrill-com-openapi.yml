@@ -1,3 +1,5 @@
+# x-archived-from: remerrill-com-openapi.yml
+# x-archived-on: 2026-09-26
 openapi: 3.1.0
 info:
   title: R.E. Merrill Pump Line Finder API
