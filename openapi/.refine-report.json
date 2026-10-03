@@ -1,20 +1,22 @@
 {
   "provider": "remerrill-com",
   "sources": [
-    "remerrill-com-openapi.yml"
+    "_original/remerrill-com-openapi.yml"
   ],
   "outputs": [
     "remerrill-com-a2a-api-openapi.yml",
     "remerrill-com-line-finder-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/remerrill-com-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "remerrill-com-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: written (+2 apis, 3 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "remerrill-com-a2a-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "remerrill-com-line-finder-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

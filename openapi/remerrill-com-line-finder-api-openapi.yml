@@ -120,6 +120,28 @@ paths:
           description: Method not allowed — only POST (and OPTIONS) is served on this path. Observed on GET with an empty body.
 components:
   schemas:
+    LineMatch:
+      type: object
+      properties:
+        lineSlug:
+          type: string
+          description: Represented line slug; also the path segment under https://www.remerrill.com/lines/.
+        lineName:
+          type: string
+        families:
+          type: array
+          items:
+            $ref: '#/components/schemas/PumpFamily'
+        rationale:
+          type: string
+          description: Human-readable verdict naming the smallest covering model, its family, the source catalog and printed page, and the water-basis caveat.
+    LineRef:
+      type: object
+      properties:
+        lineSlug:
+          type: string
+        lineName:
+          type: string
     Coverage:
       type: object
       properties:
@@ -150,38 +172,6 @@ components:
         matchingModels:
           type: integer
           description: Number of curated model envelopes in this family that cover the duty.
-    LineMatch:
-      type: object
-      properties:
-        lineSlug:
-          type: string
-          description: Represented line slug; also the path segment under https://www.remerrill.com/lines/.
-        lineName:
-          type: string
-        families:
-          type: array
-          items:
-            $ref: '#/components/schemas/PumpFamily'
-        rationale:
-          type: string
-          description: Human-readable verdict naming the smallest covering model, its family, the source catalog and printed page, and the water-basis caveat.
-    LineFinderResult:
-      type: object
-      properties:
-        matches:
-          type: array
-          items:
-            $ref: '#/components/schemas/LineMatch'
-        unresolved:
-          type: array
-          description: What the endpoint deliberately did not decide (fluid compatibility, concentration, temperature, service) and why.
-          items:
-            type: string
-        coverage:
-          $ref: '#/components/schemas/Coverage'
-        rfqUrl:
-          type: string
-          description: Site-relative URL (resolve against https://www.remerrill.com) that prefills the contact form with the duty for a human quotation.
     Duty:
       type: object
       description: A pumping duty as the provider defines it. Exactly one of flowGpm / flowGph and exactly one of pressurePsi / headFt (stated by the provider in prose; not expressible as a plain required list). Units are US customary. Fluid, concentration and temperature are accepted but never resolved by the endpoint — they are passed through to the engineer via rfqUrl.
@@ -219,13 +209,23 @@ components:
           - boiler
           description: Service type. Recorded and passed to the engineer; the curated tables cover flow and pressure envelopes only, so service is reported under unresolved.
       additionalProperties: true
-    LineRef:
+    LineFinderResult:
       type: object
       properties:
-        lineSlug:
+        matches:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineMatch'
+        unresolved:
+          type: array
+          description: What the endpoint deliberately did not decide (fluid compatibility, concentration, temperature, service) and why.
+          items:
+            type: string
+        coverage:
+          $ref: '#/components/schemas/Coverage'
+        rfqUrl:
           type: string
-        lineName:
-          type: string
+          description: Site-relative URL (resolve against https://www.remerrill.com) that prefills the contact form with the duty for a human quotation.
     ErrorResponse:
       type: object
       description: Plain JSON error object (not RFC 9457). Observed on 400.
