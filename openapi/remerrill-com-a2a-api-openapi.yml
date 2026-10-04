@@ -119,29 +119,6 @@ paths:
                 agentCard: https://www.remerrill.com/.well-known/agent-card.json
 components:
   schemas:
-    JsonRpcRequest:
-      type: object
-      required:
-      - jsonrpc
-      - id
-      - method
-      properties:
-        jsonrpc:
-          type: string
-          const: '2.0'
-        id:
-          oneOf:
-          - type: integer
-          - type: string
-        method:
-          type: string
-          description: A2A v1.0 method name. SendMessage is the implemented operation; GetTask answers -32001 for every id (tasks are not retained); anything else answers -32601.
-          examples:
-          - SendMessage
-          - GetTask
-        params:
-          type: object
-          description: 'For SendMessage: {message: {messageId, role: ROLE_USER, parts: [{data: <Duty>} | {text: "<Duty as JSON>"}]}}.'
     JsonRpcResponse:
       type: object
       required:
@@ -171,6 +148,29 @@ components:
               items:
                 type: object
                 description: google.rpc.ErrorInfo-shaped detail (@type, reason, domain, metadata).
+    JsonRpcRequest:
+      type: object
+      required:
+      - jsonrpc
+      - id
+      - method
+      properties:
+        jsonrpc:
+          type: string
+          const: '2.0'
+        id:
+          oneOf:
+          - type: integer
+          - type: string
+        method:
+          type: string
+          description: A2A v1.0 method name. SendMessage is the implemented operation; GetTask answers -32001 for every id (tasks are not retained); anything else answers -32601.
+          examples:
+          - SendMessage
+          - GetTask
+        params:
+          type: object
+          description: 'For SendMessage: {message: {messageId, role: ROLE_USER, parts: [{data: <Duty>} | {text: "<Duty as JSON>"}]}}.'
 externalDocs:
   description: Provider documentation (llms.txt) — the only published reference for this API
   url: https://www.remerrill.com/llms.txt
