@@ -10,13 +10,14 @@ edges:
   relationship: compatible
   shape: a2a
   evidence_kind: own-wellknown
-  degree: conformant
+  degree: flavored
   report_only: true
   a2a_card:
-    grade: conformant
+    grade: flavored
     verdict: live
     protocol_version: '1.0'
-    deviations: []
+    deviations:
+    - no-protocolVersion
     card_subject: api
   contract_reference:
     register: provider's own /.well-known/agent-card.json
@@ -28,7 +29,7 @@ edges:
     matched_domain: remerrill.com
     matched_by: own-domain
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
 - partner_name: a2aregistry.org
@@ -64,7 +65,7 @@ edges:
     sample_agents:
     - RE Merrill Pump Application Agent
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
 generated: '2026-10-15'
