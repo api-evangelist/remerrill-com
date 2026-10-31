@@ -1,4 +1,4 @@
-# R.E. Merrill & Associates, Inc.
+# R.E. Merrill & Associates
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,10 +64,113 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-R.E. Merrill & Associates, Inc. is a Texas industrial pump distributor and manufacturers' representative (founded in Houston in 1987; 13 represented lines including Vanton, Grundfos and Continental UltraPump) that publishes one machine-callable capability: a deterministic pump line finder that takes a pumping duty and returns which represented lines fit, citing the manufacturer catalog page, then hands off to a human engineer for quotation. It is exposed as an unauthenticated REST endpoint (POST /api/line-finder) and as an Agent2Agent v1.0 agent (JSON-RPC at /api/a2a) with a JWS-signed agent card at /.well-known/agent-card.json and an llms.txt as its documentation.
+R.E. Merrill & Associates, Inc. is a Texas industrial pump distributor and manufacturers' representative (founded in Houston in 1987 by Ron Merrill Sr., led since 2020 by Ron Merrill Jr.; based in Wimberley, TX) that applies, quotes and supports 13 pump lines — Vanton thermoplastic pumps (exclusive Texas representative for 30+ years), Grundfos dosing and multistage pumps, Continental progressing cavity pumps, DP Pumps, Pinnacle-Flo, Vertiflo, Simtech, TF Seals, Garbarino, GreenPumps, Pemo, Victor and Walrus — for chemical processing, semiconductor, water/wastewater, boiler and petrochemical service. It publishes one machine-callable capability: a deterministic pump line finder that takes a pumping duty (fluid, flow, pressure or head, service) and returns which represented lines fit, citing the manufacturer catalog page for the smallest covering model, then hands off to a human engineer for quotation. The capability is exposed as an unauthenticated REST endpoint (POST https://www.remerrill.com/api/line-finder) and as an Agent2Agent v1.0 agent (JSON-RPC 2.0 at /api/a2a) with a JWS-signed agent card at /.well-known/agent-card.json, a published JWKS, and an llms.txt as its developer documentation. No pricing is returned by the API; quotes come from an engineer.
 
-- Website: https://www.remerrill.com/
-- Documentation (llms.txt): https://www.remerrill.com/llms.txt
-- Agent card: https://www.remerrill.com/.well-known/agent-card.json
-- Quotes and contact: https://www.remerrill.com/contact
-- Profiled 2026-09-19 from the provider's public surface; first surfaced through a2aregistry.org. The OpenAPI under openapi/ is API Evangelist-generated from the provider's published endpoint description and live responses — the provider publishes no OpenAPI of its own.
+**Areas:** Industrial Pumps · Pump Selection · Industrial Equipment · Chemical Processing · Manufacturing · Distribution · Agents · A2A · Agent-Native · Texas · United States
+
+## R.E. Merrill & Associates on APIs.io
+
+Everything profiled for R.E. Merrill & Associates is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/remerrill-com/](https://apis.io/providers/remerrill-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [RE Merrill Pump Application Agent (A2A)](https://apis.io/apis/remerrill-com/pump-application-a2a-agent/) — Agent2Agent protocol surface: a JWS-signed (ES256, JWKS at /.well-known/jwks.json) A2A v1.0 agent card at…
+- [R.E. Merrill & Associates A2A API](https://apis.io/apis/remerrill-com/remerrill-com-a2a-api/) — The same line finder over the Agent2Agent protocol v1.0 (JSON-RPC 2.0).
+- [R.E. Merrill & Associates Line Finder API](https://apis.io/apis/remerrill-com/remerrill-com-line-finder-api/) — Deterministic pump line selection from curated, manufacturer-published performance data.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [remerrill-line-finder](https://apis.io/servers/remerrill-com/remerrill-line-finder/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Remerrill Com Openapi Overlay](https://apis.io/overlays/remerrill-com/remerrill-com-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Remerrill Com Authentication](https://apis.io/security/remerrill-com/remerrill-com-authentication/)
+- [Remerrill Com Domain Security](https://apis.io/security/remerrill-com/remerrill-com-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Remerrill Com Plans Pricing](https://apis.io/plans/remerrill-com/remerrill-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Remerrill Com Rate Limits](https://apis.io/rate-limits/remerrill-com/remerrill-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.remerrill.com/)
+- [Documentation](https://www.remerrill.com/llms.txt)
+- [Support](https://www.remerrill.com/contact)
+- [Blog](https://www.remerrill.com/pump-notes)
+
+## API Evangelist rating
+
+**Kin Score 18.5** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 13.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 0.0 |
+
+**Agent readiness 26.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | flavored (partial credit) |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/remerrill-com/](https://apis.io/providers/remerrill-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for R.E. Merrill & Associates: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/remerrill-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
